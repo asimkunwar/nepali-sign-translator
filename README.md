@@ -1,7 +1,7 @@
 # nepali-sign-translator
 This is the system that will be used to translate the sign language into nepali language.
 
-# Nepali Sign Language (NSL) Translation System
+# SanketAI a Nepali Sign Language Translation System
  An intelligent computer vision system designed to recognize and translate Nepali Sign Language (NSL) gestures into text and spoken Nepali language. This project aims to bridge the communication gap between the deaf/hard-of-hearing community in Nepal and the general public.
 
 # Project Overview
