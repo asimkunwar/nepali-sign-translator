@@ -1,162 +1,517 @@
-/* Custom CSS Variables for Theme Consistency */
+/* ============================================================
+   SanketAI — Design tokens
+   Palette drawn from the Nepali flag (crimson, deep blue) and
+   warm parchment, rather than a generic dark-dashboard blue.
+   ============================================================ */
 :root {
-    --bg-color: #121824;
-    --card-bg: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --accent-color: #3b82f6;
-    --success-color: #10b981;
-    --border-radius: 12px;
+    --bg: #12141A;
+    --bg-grid-line: rgba(255, 255, 255, 0.025);
+    --panel-bg: #1A1D24;
+    --panel-bg-raised: #20242D;
+    --stage-bg: #0E1015;
+    --border: #2A2E38;
+    --border-soft: #232730;
+
+    --text-primary: #F2EFE9;
+    --text-secondary: #9298A6;
+    --text-tertiary: #5C6270;
+
+    --accent: #C8273D;       /* crimson, from the Nepali flag */
+    --accent-soft: #4A1820;
+    --accent-glow: rgba(200, 39, 61, 0.35);
+
+    --confirm: #5B8A72;      /* muted sage, used for "matched" state */
+    --confirm-soft: #1C2A22;
+    --warn: #D69A4A;
+
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+
+    --font-display: 'Hind Siliguri', 'Manrope', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    background-color: var(--bg-color);
+html, body {
+    background: var(--bg);
     color: var(--text-primary);
+    font-family: var(--font-body);
     min-height: 100vh;
 }
 
-/* Header Navbar */
-.navbar {
-    background-color: var(--card-bg);
-    padding: 1.5rem 2rem;
-    text-align: center;
-    border-bottom: 2px solid #2d3748;
+body {
+    position: relative;
+    overflow-x: hidden;
 }
 
-.navbar h1 {
-    font-size: 2rem;
-    margin-bottom: 0.25rem;
+/* Faint ambient grid backdrop — quiet texture, not decoration for its own sake */
+.bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--bg-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bg-grid-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
 }
 
-.navbar p {
+a { color: inherit; }
+
+/* ============================================================
+   Topbar
+   ============================================================ */
+.topbar {
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #16181E 0%, var(--bg) 100%);
+}
+
+.topbar-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 1.1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.brand-mark {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.brand-mark .dot { fill: var(--accent); }
+.brand-mark .dot-2, .brand-mark .dot-5 { fill: #E0E4EA; }
+.brand-mark .link { stroke: var(--border); stroke-width: 1; }
+
+.brand-text h1 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+}
+
+.brand-text h1 span { color: var(--accent); }
+
+.brand-sub {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    margin-top: 0.2rem;
+    font-family: var(--font-display);
+}
+
+.topbar-status {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.82rem;
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-family: var(--font-mono);
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
 }
 
-/* Main Dashboard Grid Layout */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--warn);
+    box-shadow: 0 0 0 0 var(--warn);
+    animation: pulse-warn 1.8s ease-out infinite;
+}
+
+.status-dot.connected {
+    background: var(--confirm);
+    animation: pulse-ok 1.8s ease-out infinite;
+}
+
+.status-dot.disconnected {
+    background: var(--accent);
+    animation: none;
+}
+
+@keyframes pulse-warn {
+    0% { box-shadow: 0 0 0 0 rgba(214, 154, 74, 0.5); }
+    70% { box-shadow: 0 0 0 6px rgba(214, 154, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(214, 154, 74, 0); }
+}
+@keyframes pulse-ok {
+    0% { box-shadow: 0 0 0 0 rgba(91, 138, 114, 0.5); }
+    70% { box-shadow: 0 0 0 6px rgba(91, 138, 114, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(91, 138, 114, 0); }
+}
+
+/* ============================================================
+   Dashboard grid
+   ============================================================ */
 .dashboard {
+    position: relative;
+    z-index: 1;
+    max-width: 1240px;
+    margin: 2.25rem auto;
+    padding: 0 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1.5rem;
+    align-items: start;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .dashboard {
         grid-template-columns: 1fr;
+        margin: 1.5rem auto;
+        padding: 0 1.25rem;
     }
 }
 
-/* Common Panel Styling */
-.video-panel, .translation-panel {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    border: 1px solid #2d3748;
+.panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-.card-header {
-    background-color: #243249;
-    padding: 1rem;
-    border-bottom: 1px solid #2d3748;
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid var(--border-soft);
+    background: var(--panel-bg-raised);
 }
 
-.card-header h3 {
-    font-size: 1.1rem;
-    color: var(--text-primary);
+.eyebrow {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    margin-bottom: 0.3rem;
 }
 
-/* Video Wrapper Viewport */
+.panel-head-text h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.panel-tag {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.panel-tag.active {
+    color: var(--confirm);
+    border-color: var(--confirm-soft);
+    background: var(--confirm-soft);
+}
+
+/* ============================================================
+   Video panel
+   ============================================================ */
 .video-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 4 / 3;
-    background-color: #0f172a;
+    background: var(--stage-bg);
 }
 
 #webcam, #output_canvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
 #output_canvas {
-    z-index: 10;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    text-align: center;
+    color: var(--text-tertiary);
+    background: var(--stage-bg);
+    padding: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+.video-overlay svg {
+    color: var(--text-tertiary);
+    margin-bottom: 0.3rem;
+}
+
+.video-overlay p {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+}
+
+.overlay-sub {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+}
+
+.video-overlay.hidden {
+    opacity: 0;
     pointer-events: none;
 }
 
 .controls {
-    padding: 1.5rem;
+    padding: 1.2rem 1.4rem;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
 }
 
-/* Buttons */
 .btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    font-family: var(--font-display);
+    padding: 0.7rem 1.4rem;
+    font-size: 0.92rem;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
 }
 
-.btn-start {
-    background-color: var(--accent-color);
-    color: white;
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+    background: var(--accent);
+    color: #FCEEF0;
+    box-shadow: 0 6px 20px -6px var(--accent-glow);
 }
 
-.btn-start:hover {
-    background-color: #2563eb;
+.btn-primary:hover { background: #B61F34; }
+
+.btn-primary:disabled {
+    background: var(--border);
+    color: var(--text-tertiary);
+    box-shadow: none;
+    cursor: not-allowed;
 }
 
-/* Translation Display Box */
-.result-box {
+.btn-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #FCEEF0;
+}
+
+.btn-help {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+}
+
+/* ============================================================
+   Result panel — the signature element
+   ============================================================ */
+.result-stage {
     flex: 1;
+    background: var(--stage-bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3rem 2rem;
-    background-color: #0f172a;
+    padding: 2.5rem 1.5rem;
+    min-height: 220px;
+    position: relative;
+}
+
+.result-box {
     text-align: center;
 }
 
 #nepali-text {
-    font-size: 3rem;
-    font-weight: bold;
-    color: var(--success-color);
+    font-family: var(--font-display);
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.15;
+    word-break: break-word;
+    transition: color 0.2s ease;
+}
+
+#nepali-text.matched {
+    color: var(--confirm);
 }
 
 .placeholder-text {
-    font-size: 1.2rem !important;
-    color: var(--text-secondary) !important;
-    font-weight: normal !important;
+    font-size: 1.1rem !important;
+    color: var(--text-tertiary) !important;
+    font-weight: 400 !important;
+    font-family: var(--font-body) !important;
 }
 
-.meta-data {
-    padding: 1rem 1.5rem;
-    background-color: #243249;
-    border-top: 1px solid #2d3748;
-    text-align: right;
-    font-size: 1rem;
+.confidence-block {
+    padding: 1.1rem 1.4rem;
+    border-top: 1px solid var(--border-soft);
+}
+
+.confidence-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.7rem;
+}
+
+.confidence-label {
+    font-size: 0.85rem;
     color: var(--text-secondary);
+    font-family: var(--font-display);
 }
 
-#confidence-score {
+.muted {
+    color: var(--text-tertiary);
+    font-size: 0.78rem;
+}
+
+.confidence-value {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: 600;
     color: var(--text-primary);
+}
+
+/* Signal-bar meter — echoes "reading a live signal" rather than a generic progress bar */
+.signal-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 28px;
+}
+
+.signal-bars .bar {
+    flex: 1;
+    background: var(--border);
+    border-radius: 2px;
+    height: 30%;
+    transition: height 0.25s ease, background-color 0.25s ease;
+}
+
+.signal-bars .bar.lit {
+    background: var(--accent);
+}
+
+.signal-bars .bar.lit.strong {
+    background: var(--confirm);
+}
+
+/* ============================================================
+   Recent translations log
+   ============================================================ */
+.log-block {
+    padding: 1.1rem 1.4rem 1.3rem;
+    border-top: 1px solid var(--border-soft);
+}
+
+.log-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.7rem;
+}
+
+.log-head .eyebrow { margin-bottom: 0; }
+
+.log-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 140px;
+    overflow-y: auto;
+}
+
+.log-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    padding: 0.5rem 0.7rem;
+    background: var(--bg);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+}
+
+.log-list li .log-conf {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--text-tertiary);
+}
+
+.log-empty {
+    color: var(--text-tertiary);
+    font-family: var(--font-body) !important;
+    font-size: 0.85rem !important;
+    justify-content: center !important;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 1.5rem 1rem 2.5rem;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+}
+
+/* ============================================================
+   Accessibility
+   ============================================================ */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .status-dot { animation: none; }
+    .btn { transition: none; }
 }
