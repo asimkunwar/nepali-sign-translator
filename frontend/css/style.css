@@ -1,0 +1,162 @@
+/* Custom CSS Variables for Theme Consistency */
+:root {
+    --bg-color: #121824;
+    --card-bg: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-color: #3b82f6;
+    --success-color: #10b981;
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* Header Navbar */
+.navbar {
+    background-color: var(--card-bg);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 2px solid #2d3748;
+}
+
+.navbar h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.navbar p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Main Dashboard Grid Layout */
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Common Panel Styling */
+.video-panel, .translation-panel {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid #2d3748;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    background-color: #243249;
+    padding: 1rem;
+    border-bottom: 1px solid #2d3748;
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+/* Video Wrapper Viewport */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #0f172a;
+}
+
+#webcam, #output_canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#output_canvas {
+    z-index: 10;
+    pointer-events: none;
+}
+
+.controls {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-start {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-start:hover {
+    background-color: #2563eb;
+}
+
+/* Translation Display Box */
+.result-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    background-color: #0f172a;
+    text-align: center;
+}
+
+#nepali-text {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--success-color);
+}
+
+.placeholder-text {
+    font-size: 1.2rem !important;
+    color: var(--text-secondary) !important;
+    font-weight: normal !important;
+}
+
+.meta-data {
+    padding: 1rem 1.5rem;
+    background-color: #243249;
+    border-top: 1px solid #2d3748;
+    text-align: right;
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+#confidence-score {
+    color: var(--text-primary);
+}
